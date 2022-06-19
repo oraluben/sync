@@ -1,0 +1,56 @@
+name: Sync
+
+on:
+  push: # when this synchronizer update
+  schedule:
+    - cron: '0 */12 * * *' # every 12 hours
+  workflow_dispatch: # on button click
+
+concurrency:
+  group: "workflow = ${{ github.workflow }}, ref = ${{ github.event.ref }}"
+  cancel-in-progress: true
+
+jobs:
+  sync-jdk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: 'oraluben/jdk'
+          token: ${{ secrets.UPDATE_TOKEN }}
+          fetch-depth: 0
+      - name: Add remotes
+        run: |
+          git remote add jdk https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/openjdk/jdk
+          git remote add labs-17 https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/graalvm/labs-openjdk-17
+          git remote add loom https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/openjdk/loom
+          git remote add 18u https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/openjdk/jdk18u
+          git remote add 19 https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/openjdk/jdk19
+      - name: Fetch
+        run: git fetch --all
+      - name: Push
+        run: |
+          # git checkout --track origin/master
+          git rebase jdk/master
+          git push
+          git push --tags
+          git checkout --track origin/labs-17
+          git rebase labs-17/master
+          git push
+          git checkout --track origin/fibers
+          git rebase loom/fibers
+          git push
+          git checkout --track origin/18u
+          git rebase 18u/master
+          git push
+          git checkout --track origin/19
+          git rebase 19/master
+          git push
+  # sync-cpython:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #       with:
+  #         repository: 'oraluben/cpython'
+  #         token: ${{ secrets.UPDATE_TOKEN }}
+  #         fetch-depth: 0
