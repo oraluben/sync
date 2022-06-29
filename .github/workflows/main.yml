@@ -46,44 +46,44 @@ jobs:
           git checkout --track origin/19
           git rebase 19/master
           git push
-  sync-graal:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          repository: 'oraluben/graal'
-          token: ${{ secrets.UPDATE_TOKEN }}
-          fetch-depth: 0
-      - name: Add remotes
-        run: |
-          git remote add upstream https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/oracle/graal
-      - name: Fetch
-        run: git fetch --all
-      - name: Push
-        run: |
-          # git checkout --track origin/master
-          git rebase upstream/master
-          git push
-          git push --tags
-  sync-mx:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          repository: 'oraluben/mx'
-          token: ${{ secrets.UPDATE_TOKEN }}
-          fetch-depth: 0
-      - name: Add remotes
-        run: |
-          git remote add upstream https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/graalvm/mx
-      - name: Fetch
-        run: git fetch --all
-      - name: Push
-        run: |
-          # git checkout --track origin/master
-          git rebase upstream/master
-          git push
-          git push --tags
+  # sync-graal:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #       with:
+  #         repository: 'oraluben/graal'
+  #         token: ${{ secrets.UPDATE_TOKEN }}
+  #         fetch-depth: 0
+  #     - name: Add remotes
+  #       run: |
+  #         git remote add upstream https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/oracle/graal
+  #     - name: Fetch
+  #       run: git fetch --all
+  #     - name: Push
+  #       run: |
+  #         # git checkout --track origin/master
+  #         git rebase upstream/master
+  #         git push
+  #         git push --tags
+  # sync-mx:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #       with:
+  #         repository: 'oraluben/mx'
+  #         token: ${{ secrets.UPDATE_TOKEN }}
+  #         fetch-depth: 0
+  #     - name: Add remotes
+  #       run: |
+  #         git remote add upstream https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/graalvm/mx
+  #     - name: Fetch
+  #       run: git fetch --all
+  #     - name: Push
+  #       run: |
+  #         # git checkout --track origin/master
+  #         git rebase upstream/master
+  #         git push
+  #         git push --tags
   # sync-cpython:
   #   runs-on: ubuntu-latest
   #   steps:
