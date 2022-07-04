@@ -27,13 +27,13 @@ jobs:
           git remote add 18u https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/openjdk/jdk18u
           git remote add 19 https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/openjdk/jdk19
       - name: Fetch
-        run: git fetch --all
+        run: |
+          git fetch --all --no-tags
       - name: Push
         run: |
           # git checkout --track origin/master
           git rebase jdk/master
           git push
-          git push --tags
           git checkout --track origin/labs-17
           git rebase labs-17/master
           git push
@@ -46,6 +46,10 @@ jobs:
           git checkout --track origin/19
           git rebase 19/master
           git push
+      - name: Sync tags from main
+        run: |
+          git fetch jdk --tags
+          git push --tags
   # sync-graal:
   #   runs-on: ubuntu-latest
   #   steps:
