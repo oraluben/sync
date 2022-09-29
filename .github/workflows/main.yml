@@ -54,6 +54,25 @@ jobs:
         run: |
           git fetch jdk --tags
           git push --tags
+  sync-node:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: 'oraluben/node'
+          token: ${{ secrets.UPDATE_TOKEN }}
+          fetch-depth: 0
+      - name: Add remotes
+        run: |
+          git remote add upstream https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/nodejs/node
+      - name: Fetch
+        run: |
+          git fetch --all --no-tags --shallow-since="1 day"
+      - name: Push
+        run: |
+          # git checkout --track origin/main
+          git rebase upstream/main
+          git push
   # sync-graal:
   #   runs-on: ubuntu-latest
   #   steps:
