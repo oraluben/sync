@@ -27,6 +27,7 @@ jobs:
           # git remote add 18u https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/openjdk/jdk18u
           git remote add 19 https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/openjdk/jdk19
           git remote add labs-19 https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/graalvm/labs-openjdk-19
+          git remote add labs-20 https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/graalvm/labs-openjdk-20
       - name: Fetch
         run: |
           git fetch --all --no-tags --shallow-since="1 day"
@@ -49,6 +50,9 @@ jobs:
           git push
           git checkout --track origin/labs-19
           git rebase labs-19/master
+          git push
+          git checkout --track origin/labs-20
+          git rebase labs-20/master
           git push
       - name: Sync tags from main
         run: |
