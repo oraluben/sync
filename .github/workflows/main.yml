@@ -24,9 +24,6 @@ jobs:
           git remote add jdk https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/openjdk/jdk
           git remote add labs-17 https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/graalvm/labs-openjdk-17
           git remote add loom https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/openjdk/loom
-          # git remote add 18u https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/openjdk/jdk18u
-          git remote add 19 https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/openjdk/jdk19
-          git remote add labs-19 https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/graalvm/labs-openjdk-19
       - name: Fetch
         run: |
           git fetch --all --no-tags --shallow-since="1 day"
@@ -40,15 +37,6 @@ jobs:
           git push
           git checkout --track origin/fibers
           git rebase loom/fibers
-          git push
-          # git checkout --track origin/18u
-          # git rebase 18u/master
-          # git push
-          git checkout --track origin/19
-          git rebase 19/master
-          git push
-          git checkout --track origin/labs-19
-          git rebase labs-19/master
           git push
       - name: Sync tags from main
         run: |
