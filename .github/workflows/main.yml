@@ -30,7 +30,6 @@ jobs:
           git fetch --all --no-tags --shallow-since="1 day"
       - name: Push
         run: |
-          # git checkout --track origin/master
           git rebase jdk/master
           git push
           git checkout --track origin/labs-17
@@ -104,11 +103,25 @@ jobs:
   #         git rebase upstream/master
   #         git push
   #         git push --tags
-  # sync-cpython:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #       with:
-  #         repository: 'oraluben/cpython'
-  #         token: ${{ secrets.UPDATE_TOKEN }}
-  #         fetch-depth: 0
+  sync-cpython:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: 'oraluben/cpython'
+          token: ${{ secrets.UPDATE_TOKEN }}
+          fetch-depth: 0
+      - name: Add remotes
+        run: |
+          git remote add cpy https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/python/cpython
+          git remote add pylbbv https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/pylbbv/pylbbv
+      - name: Fetch
+        run: |
+          git fetch --all --no-tags --shallow-since="1 day"
+      - name: Push
+        run: |
+          git rebase cpy/main
+          git push
+          git checkout --track origin/pylbbv
+          git rebase pylbbv/pylbbv
+          git push
