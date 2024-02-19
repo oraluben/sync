@@ -14,7 +14,7 @@ jobs:
   sync-jdk:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: 'oraluben/jdk'
           token: ${{ secrets.UPDATE_TOKEN }}
@@ -41,10 +41,11 @@ jobs:
         run: |
           git fetch jdk --tags
           git push --tags
+      - uses: gautamkrishnar/keepalive-workflow@v1
   sync-node:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: 'oraluben/node'
           token: ${{ secrets.UPDATE_TOKEN }}
@@ -63,7 +64,7 @@ jobs:
   sync-graal:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: 'oraluben/graal'
           token: ${{ secrets.UPDATE_TOKEN }}
@@ -82,7 +83,7 @@ jobs:
   sync-mx:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: 'oraluben/mx'
           token: ${{ secrets.UPDATE_TOKEN }}
@@ -101,7 +102,7 @@ jobs:
   sync-cpython:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: 'oraluben/cpython'
           token: ${{ secrets.UPDATE_TOKEN }}
@@ -120,8 +121,3 @@ jobs:
           git checkout --track origin/pylbbv
           git rebase pylbbv/pylbbv
           git push
-  keep-active:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: gautamkrishnar/keepalive-workflow@v1
