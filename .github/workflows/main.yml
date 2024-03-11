@@ -41,7 +41,7 @@ jobs:
         run: |
           git fetch jdk --tags
           git push --tags
-      - uses: gautamkrishnar/keepalive-workflow@v1
+      - uses: gautamkrishnar/keepalive-workflow@v2
   sync-node:
     runs-on: ubuntu-latest
     steps:
