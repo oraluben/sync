@@ -36,9 +36,13 @@ jobs:
           git remote add jdk https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/openjdk/jdk
           git remote add labs https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/graalvm/labs-openjdk
           git remote add loom https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/openjdk/loom
+          git remote add 8u https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/openjdk/jdk8u
+          git remote add 11u https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/openjdk/jdk11u
+          git remote add 17u https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/openjdk/jdk17u
+          git remote add 21u https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/openjdk/jdk21u
       - name: Fetch
         run: |
-          git fetch --all --no-tags
+          git fetch --all --no-tags --shallow-since="1 day"
       - name: Push
         run: |
           git rebase jdk/master
@@ -48,6 +52,18 @@ jobs:
           git push
           git checkout --track origin/labs
           git rebase labs/master
+          git push
+          git checkout --track origin/8u
+          git rebase 8u/master
+          git push
+          git checkout --track origin/11u
+          git rebase 11u/master
+          git push
+          git checkout --track origin/17u
+          git rebase 17u/master
+          git push
+          git checkout --track origin/21u
+          git rebase 21u/master
           git push
       - name: Sync tags from main
         run: |
@@ -66,7 +82,7 @@ jobs:
           git remote add upstream https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/nodejs/node
       - name: Fetch
         run: |
-          git fetch --all --no-tags
+          git fetch --all --no-tags --shallow-since="1 day"
       - name: Push
         run: |
           # git checkout --track origin/main
@@ -124,7 +140,7 @@ jobs:
           git remote add pylbbv https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/pylbbv/pylbbv
       - name: Fetch
         run: |
-          git fetch --all --no-tags
+          git fetch --all --no-tags --shallow-since="1 day"
       - name: Push
         run: |
           git rebase cpy/main
